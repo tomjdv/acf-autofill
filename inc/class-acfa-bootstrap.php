@@ -24,6 +24,7 @@ class ACFA_Bootstrap {
         require 'class-acfa-settings.php';
 
         $settings = new ACFA_Settings();
+        $settings->initialize();
     }
 }
 
