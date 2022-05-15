@@ -5,9 +5,9 @@ jQuery(document).ready( function($) {
 
     let wpMediaPostID = wp.media.model.settings.post.id;
 
-    const smallImageID  = scriptParams.smallImageID,
-        mediumImageID = scriptParams.mediumImageID,
-        largeImageID  = scriptParams.largeImageID;
+    const smallImageID = scriptParams.smallImageID,
+        mediumImageID  = scriptParams.mediumImageID,
+        largeImageID   = scriptParams.largeImageID;
 
     jQuery('#upload_small_image_button').on('click', function(event){
 

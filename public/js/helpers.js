@@ -4,7 +4,6 @@ class Helpers {
     }
 
     static getRandomFromArray(array) {
-        const randInt = this.getRandomInt(array.length);
-        return array[randInt];
+        return array[this.getRandomInt(array.length)];
     }
 }

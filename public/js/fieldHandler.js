@@ -14,7 +14,6 @@ class fieldHandler {
                 this.group_field_handler(data);
                 break;
             case 'image':
-                // TODO
                 this.image_field_handler(data);
                 break;
             case 'link':
@@ -66,15 +65,12 @@ class fieldHandler {
 
     group_field_handler(data) {
         console.log("Found a group field!");
-        console.dir(data);
     }
     
     image_field_handler(data) {
         const theField = acf.getField(data.key);
 
         if (theField.val()) return;
-
-        const name = data.name;
 
         // Check for the standard images set in the options
         const smallImage = {
@@ -91,11 +87,13 @@ class fieldHandler {
         };
         let image = undefined;
 
-        switch (name) {
+        switch (data.name) {
+            case 'avatar':
             case 'small-image':
                 image = smallImage || undefined;
                 break;
             case 'medium-image':
+            case 'card-image':
                 image = mediumImage || smallImage;
                 break;
             case 'large-image':
@@ -104,6 +102,7 @@ class fieldHandler {
                 image = largeImage || mediumImage || smallImage;
                 break;
             default:
+                image = largeImage || mediumImage || smallImage;
                 break;
         }
 
@@ -127,12 +126,11 @@ class fieldHandler {
         
         if (theField.val()) return;
 
-        const name = data.name;
         const linkData = this.data.link;        
 
         let randomLink = Helpers.getRandomFromArray(linkData.external);
 
-        switch (name) {
+        switch (data.name) {
             case 'external-link':
                 randomText = Helpers.getRandomFromArray(linkData.external);
             case 'internal-link':
@@ -201,12 +199,11 @@ class fieldHandler {
 
         if (theField.val()) return;
 
-        const name = data.name;
         const textareaData = this.data.textarea;        
 
         let randomText = Helpers.getRandomFromArray(textareaData.random);
         
-        switch (name) {
+        switch (data.name) {
             case 'summary':
                 randomText = Helpers.getRandomFromArray(textareaData.summaries);
                 break;
@@ -233,8 +230,5 @@ class fieldHandler {
 const handler = new fieldHandler();
 
 acf.addAction('ready_field', (field) => {
-    const data = field.data;
-    const type = data.type;
-
-    handler.handle_field(data, type);
+    handler.handle_field(field.data, field.data.type);
 });
