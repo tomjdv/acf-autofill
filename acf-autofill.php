@@ -14,3 +14,4 @@ define( 'PLUGIN_BASE_FILE', __FILE__ );
 define( 'PLUGIN_BASE_DIR', plugin_dir_url( __FILE__ ) );
 
 require 'inc' . DIRECTORY_SEPARATOR . 'class-acfa-bootstrap.php';
+$acfa_bootstrap = new ACFA_Bootstrap();

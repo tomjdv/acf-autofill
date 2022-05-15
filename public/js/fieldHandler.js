@@ -132,11 +132,11 @@ class fieldHandler {
 
         switch (data.name) {
             case 'external-link':
-                randomText = Helpers.getRandomFromArray(linkData.external);
+                randomLink = Helpers.getRandomFromArray(linkData.external);
             case 'internal-link':
-                randomText = Helpers.getRandomFromArray(linkData.internal);
+                randomLink = Helpers.getRandomFromArray(linkData.internal);
             case 'read-more':
-                randomText = Helpers.getRandomFromArray(linkData.internal);  
+                randomLink = Helpers.getRandomFromArray(linkData["read-more"]);  
             default:
                 break;
         }

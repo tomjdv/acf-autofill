@@ -7,11 +7,6 @@
 
 class ACFA_Bootstrap {
     public function __construct() {
-        // Do nothing for now
-    }
-
-    public function initialize() {
-        // Do nothing for now
         add_action( 'init', array( $this, 'initialize_classes' ) );
     }
 
@@ -27,6 +22,3 @@ class ACFA_Bootstrap {
         $settings->initialize();
     }
 }
-
-$acfa_bootstrap = new ACFA_Bootstrap();
-$acfa_bootstrap->initialize();
