@@ -12,7 +12,6 @@ class fieldHandler {
                 this.link_field_handler(data);
                 break;
             case 'radio':
-                // TODO
                 this.radio_field_handler(data);
                 break;
             case 'repeater':
@@ -34,16 +33,11 @@ class fieldHandler {
                 this.textarea_field_handler(data);
                 break;
             case 'wysiwyg':
-                // TODO
                 this.wysiwyg_field_handler(data);
                 break;
             default:
                 break;
         }
-    }
-
-    group_field_handler(data) {
-        console.log("Found a group field!");
     }
     
     image_field_handler(data) {
