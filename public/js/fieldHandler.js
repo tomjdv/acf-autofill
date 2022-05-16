@@ -221,7 +221,13 @@ class fieldHandler {
     }
 
     wysiwyg_field_handler(data) {
-        console.log("Found a wysiwyg field!");
+        const theField = acf.getField(data.key);
+
+        if(theField.val()) return;
+
+        const wysiwygData = this.data.wysiwyg;        
+
+        theField.setValue(wysiwygData);
     }
 }
 

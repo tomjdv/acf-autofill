@@ -123,5 +123,9 @@ const data = {
                 target: "_blank"
             }
         ]
-    }
+    },
+    wysiwyg: [
+        `<h2>To be pasted in...</h2>
+        This will just get some dummy data`
+    ]
 }
