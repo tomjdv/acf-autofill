@@ -5,23 +5,11 @@ class fieldHandler {
 
     handle_field(data, type) {
         switch (type) {
-            case 'checkbox':
-                // TODO, low priority
-                this.checkbox_field_handler(data);
-                break;
-            case 'group':
-                // TODO, tough one
-                this.group_field_handler(data);
-                break;
             case 'image':
                 this.image_field_handler(data);
                 break;
             case 'link':
                 this.link_field_handler(data);
-                break;
-            case 'number':
-                // TODO, low priority
-                this.number_field_handler(data);
                 break;
             case 'radio':
                 // TODO
@@ -45,22 +33,13 @@ class fieldHandler {
             case 'textarea':
                 this.textarea_field_handler(data);
                 break;
-            case 'true_false':
-                // TODO, low priority
-                this.true_false_field_handler(data);
-                break;
             case 'wysiwyg':
                 // TODO
                 this.wysiwyg_field_handler(data);
                 break;
             default:
-                console.log("Unknown field type");
                 break;
         }
-    }
-    
-    checkbox_field_handler(data) {
-        console.log("Found a checkbox field!");
     }
 
     group_field_handler(data) {
@@ -133,10 +112,13 @@ class fieldHandler {
         switch (data.name) {
             case 'external-link':
                 randomLink = Helpers.getRandomFromArray(linkData.external);
+                break;
             case 'internal-link':
                 randomLink = Helpers.getRandomFromArray(linkData.internal);
+                break;
             case 'read-more':
-                randomLink = Helpers.getRandomFromArray(linkData["read-more"]);  
+                randomLink = Helpers.getRandomFromArray(linkData["read-more"]);
+                break;
             default:
                 break;
         }
@@ -144,12 +126,26 @@ class fieldHandler {
         theField.setValue(randomLink);
     }
 
-    number_field_handler(data) {
-        console.log("Found a number field!");
-    }
-
     radio_field_handler(data) {
-        console.log("Found a radio field!");
+        // Can't find out if it's already been filled and saved...
+        // Grab the radio button
+        let radioButton = acf.getField('field_628289149f16d');
+
+        // Get the <ul> that contains the choices
+        let choiceList = radioButton.$control();
+
+        // Get the length of the array
+        let choices = choiceList.children().length;
+
+        // Grab a random index with the amount of choices as the max 
+        const randomInt = Helpers.getRandomInt(choices);
+
+        // Pick one of the list items
+        let choice = choiceList.children()[randomInt];
+
+        // Give the list item the selected class and check it
+        choice.firstChild.classList.add('selected');
+        choice.firstChild.firstChild.checked = true;
     }
 
     relationship_field_handler(data) {
@@ -177,16 +173,22 @@ class fieldHandler {
         switch (name) {
             case 'name':
                 randomText = Helpers.getRandomFromArray(textData.names);
+                break;
             case 'testimonial':
                 randomText = Helpers.getRandomFromArray(textData.testimonials);
+                break;
             case 'quote':
                 randomText = Helpers.getRandomFromArray(textData.quotes);
+                break;
             case 'address':
                 randomText = Helpers.getRandomFromArray(textData.addresses);
+                break;
             case 'zipcode':
                 randomText = Helpers.getRandomFromArray(textData.zipcodes);
+                break;
             case 'city':
                 randomText = Helpers.getRandomFromArray(textData.cities);
+                break;
             default:
                 break;
         }
@@ -216,10 +218,6 @@ class fieldHandler {
         }
 
         theField.setValue(randomText);
-    }
-
-    true_false_field_handler(data) {
-        console.log("Found a true false field!");
     }
 
     wysiwyg_field_handler(data) {
