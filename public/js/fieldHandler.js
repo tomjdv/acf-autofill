@@ -5,6 +5,9 @@ class fieldHandler {
 
     handle_field(data, type) {
         switch (type) {
+            case 'flexible_content':
+                this.flexible_content_field_handler(data);
+                break;
             case 'image':
                 this.image_field_handler(data);
                 break;
@@ -17,22 +20,14 @@ class fieldHandler {
             case 'repeater':
                 this.repeater_field_handler(data);
                 break;
-            case 'relationship':
-                // TODO
-                this.relationship_field_handler(data);
-                break;
-            case 'select':
-                // TODO
-                this.select_field_handler(data);
-                break;
+            // case 'relationship':
+            //     this.relationship_field_handler(data);
+            //     break;
             case 'text':
                 this.text_handler(data);
                 break;
             case 'textarea':
                 this.textarea_field_handler(data);
-                break;
-            case 'wysiwyg':
-                this.wysiwyg_field_handler(data);
                 break;
             default:
                 break;
@@ -51,12 +46,7 @@ class fieldHandler {
                 this.radio_subfield_handler(data);
                 break;
             // case 'relationship':
-            //     // TODO
             //     this.relationship_subfield_handler(data);
-            //     break;
-            // case 'select':
-            //     // TODO
-            //     this.select_subfield_handler(data);
             //     break;
             case 'text':
                 this.text_subhandler(data);
@@ -64,12 +54,16 @@ class fieldHandler {
             case 'textarea':
                 this.textarea_subfield_handler(data);
                 break;
-            case 'wysiwyg':
-                this.wysiwyg_subfield_handler(data);
-                break;
             default:
                 break;
         }
+    }
+
+    flexible_content_field_handler(data) {
+        acf.addAction('new_field', (field) => {
+            console.log('new field added' + field.data.type);
+            this.handle_subfield(field.data, field.data.type);
+        });
     }
     
     image_field_handler(data) {
@@ -179,7 +173,6 @@ class fieldHandler {
             allImgElements.forEach((el) => {
                 el.src = image.url;
             });
-            console.log(allImgElements);
             
             // Show the image field
             const allImgUploadElements = document.querySelectorAll(`[data-key="${data.key}"] .acf-image-uploader`);
@@ -288,6 +281,13 @@ class fieldHandler {
 
     relationship_field_handler(data) {
         console.log("Found a relationship field!");
+        const field = acf.getField(data.key);
+        const posts = data;
+        console.log(field);
+
+        field.on('ready', (e) => {
+            console.log(e);
+        });
     }
 
     repeater_field_handler(data) {
@@ -304,10 +304,6 @@ class fieldHandler {
         for (let i = 0; i < 3; i++) {
             document.querySelector(`[data-key="${data.key}"] .acf-actions a[data-event="add-row"]`).click();
         }
-    }
-
-    select_field_handler(data) {
-        console.log("Found a select field!");
     }
 
     text_handler(data) {
@@ -431,32 +427,17 @@ class fieldHandler {
             field.setValue(randomText);
         });
     }
-
-    wysiwyg_field_handler(data) {
-        const theField = acf.getField(data.key);
-
-        if(theField.val()) return;
-
-        const wysiwygData = this.data.wysiwyg;        
-
-        theField.setValue(wysiwygData);
-    }
-
-    wysiwyg_subfield_handler(data) {
-        const theFields = acf.getFields({key: data.key});
-
-        theFields.forEach((field) => {
-            if(field.val()) return;
-
-            const wysiwygData = this.data.wysiwyg;        
-
-            field.setValue(wysiwygData);
-        });
-    }
 }
 
 const handler = new fieldHandler();
 
 acf.addAction('ready_field', (field) => {
     handler.handle_field(field.data, field.data.type);
+});
+
+acf.addAction('wysiwyg_tinymce_init', function( ed, id, mceInit, field ){
+    const wysiwygData = handler.data.wysiwyg[0]; 
+    const tinyID = field.$el.find("textarea").attr("id");
+    const tinyInstance = tinyMCE.editors[tinyID];
+    tinyInstance.setContent(wysiwygData);
 });
